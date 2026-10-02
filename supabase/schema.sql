@@ -74,3 +74,10 @@ $$;
 drop trigger if exists trg_log_expense_activity on public.expenses;create trigger trg_log_expense_activity
 after insert or update or delete on public.expenses
 for each row execute function public.log_expense_activity();
+
+-- ---------- SALDO AWAL ----------
+create table if not exists public.monthly_balances (
+  month text primary key,
+  saldo_awal numeric(14, 2) not null default  0,
+  updated_at timestamptz not null default now()
+);

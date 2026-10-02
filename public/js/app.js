@@ -1,4 +1,5 @@
 let currentUser = null;
+let currentSaldo = null;
 let currentMonth = null;
 let expenses = [];
 let profiles = [];
@@ -23,6 +24,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
     await initHeader();
     await loadData();
+    await loadSaldo();
     bindEvents();
   } catch (err) {
     console.error(err);
@@ -42,14 +44,16 @@ function initHeader() {
 
 function bindEvents() {
   document.getElementById("expense-form").addEventListener("submit", addExpense);
-  document.getElementById("month").addEventListener("change", (e) => {
+  document.getElementById("month").addEventListener("change", async (e) => {
     currentMonth = e.target.value;
     loadData();
+    await loadSaldo();
   });
   document.getElementById("btn-logout").addEventListener("click", () => {
     localStorage.removeItem("active_profile");
     window.location.href = "index.html";
   });
+  document.getElementById("btn-saldo-save").addEventListener("click", saveSaldo);
 
   const editModal = document.getElementById("edit-modal");
   document.getElementById("btn-edit-save").addEventListener("click", saveEdit);
@@ -226,6 +230,34 @@ function renderLogs() {
       '<div class="lwhen">' + formatDateTime(l.created_at) + "</div>" +
       "</div>";
     list.appendChild(item);
+  });
+}
+
+function loadSaldo() {
+  return sb.from("monthly_balances").select("saldo_awal").eq("month", currentMonth).maybeSingle().then(({ data }) => {
+    currentSaldo = data ? Number(data.saldo_awal) : 0;
+    document.getElementById("saldo-awal").value = currentSaldo || "";
+    renderSaldo();
+  }).catch((err) => {
+    console.error(err);
+    toast("Gagal memuat saldo: " + err.message, "error");
+  });
+}
+
+function renderSaldo() {
+  const total = expenses.reduce((s, e) => s + Number(e.amount),0);
+  document.getElementById("saldo-terpakai").textContent = formatRupiah(total);
+  document.getElementById("saldo-sisa").textContent = formatRupiah(currentSaldo - total);
+}
+
+function saveSaldo() {
+  const v = parseFloat(document.getElementById("saldo-awal").value) || 0;
+  if (v < 0) { toast("Saldo tidak valid.", "error"); return; }
+  sb.from("monthly_balances").upsert({ month: currentMonth, saldo_awal: v }, { onConflict: "month" }).then(async ({ error }) => {
+    if (error) { toast("Gagal simpan saldo: " + error.message, "error"); return; }
+    currentSaldo = v;
+    toast("Saldo awal disimpan.", "success");
+    renderSaldo();
   });
 }
 

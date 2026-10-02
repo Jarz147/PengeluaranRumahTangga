@@ -340,3 +340,9 @@ tr:hover td { background: #fafbff; }
 .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,.4); border-top-color: #fff; border-radius: 50%; animation: spin .6s linear infinite; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
+.saldo-wrap { display: flex; gap:  20px; align-items: flex-end; flex-wrap: wrap; }
+.saldo-main { flex: 1; min-width: 160px; }
+.saldo-field { display: flex; flex-direction: column; gap:  4px; }
+.saldo-input { display: flex; gap:  8px; align-items: center; }
+.saldo-input input { flex: 1; min-width:  140px; padding:  9px 12px; border:  1px solid var(--border); border-radius:  8px; font-size:  14px; }
+.btn-sm { padding:  9px 16px; font-size:  13px; }
