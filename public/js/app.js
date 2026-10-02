@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   const today = new Date();
-  currentMonth = localMonthStr(today;
+  currentMonth = localMonthStr(today);
 
   try {
     profiles = await getProfiles();
@@ -114,17 +114,17 @@ function renderSummary() {
     byRole[r] += Number(e.amount);
   });
 
-  document.getElementById("stat-total").textContent = formatRupiah(total;
-  document.getElementById("stat-suami").textContent = formatRupiah(byRole.suami;
-  document.getElementById("stat-istri").textContent = formatRupiah(byRole.istri;
-  document.getElementById("stat-anak").textContent = formatRupiah(byRole.anak;
+  document.getElementById("stat-total").textContent = formatRupiah(total);
+  document.getElementById("stat-suami").textContent = formatRupiah(byRole.suami);
+  document.getElementById("stat-istri").textContent = formatRupiah(byRole.istri);
+  document.getElementById("stat-anak").textContent = formatRupiah(byRole.anak);
   document.getElementById("stat-count").textContent = expenses.length + " transaksi";
 
-  document.getElementById("bp-suami").textContent = formatRupiah(byRole.suami;
-  document.getElementById("bp-istri").textContent = formatRupiah(byRole.istri;
-  document.getElementById("bp-anak").textContent = formatRupiah(byRole.anak;
+  document.getElementById("bp-suami").textContent = formatRupiah(byRole.suami);
+  document.getElementById("bp-istri").textContent = formatRupiah(byRole.istri);
+  document.getElementById("bp-anak").textContent = formatRupiah(byRole.anak);
 
-  renderCategories(total;
+  renderCategories(total);
 }
 
 function who(id) {
