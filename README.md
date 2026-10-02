@@ -1,35 +1,33 @@
 # Catatan Keuangan Keluarga 💰
 
-Web sederhana untuk mencatat pengeluaran bulanan suami & istri, lengkap dengan:
-- **Ringkasan**: total bulan ini, breakdown Suami vs Istri, dan pengeluaran per kategori.
+Web sederhana untuk mencatat pengeluaran bulanan keluarga (Suami/Istri/Anak,, lengkap dengan:
+- **Ringkasan**: total bulan ini, breakdown per anggota, dan pengeluaran per kategori.
+
 - **Riwayat**: daftar semua transaksi (tambah/ubah/hapus).
-- **Log Aktivitas**: otomatis mencatat siapa yang menambah, mengubah, atau menghapus pengeluaran.
-- Login terpisah untuk Suami dan Istri (Supabase Auth).
+- **Log Aktivitas**: otomatis mencatat siapa yang menambah,, mengubah,, atau menghapus pengeluaran.
+- Login cukup **pilih role** (tanpa email/password.
 
 ## Arsitektur
 - **Frontend**: HTML/CSS/JS statis (vanilla JS + supabase-js v2 via CDN).
-- **Backend**: Supabase (Auth + PostgreSQL + Row Level Security).
+- **Backend**: Supabase (PostgreSQL, tanpa Auth — akses terbuka untuk anggota keluarga).
 - **Hosting**: Cloudflare Pages.
 
-## Setup Supabase (wajib sekali)
+## Setup Supabase (sekali saja)
 
+Jika project **baru**:
 1. Buka [Supabase Dashboard](https://supabase.com/dashboard) → project kamu.
-2. Buka **SQL Editor** → **New query** → salin isi `supabase/schema.sql` → **Run**. Ini membuat tabel `profiles`, `expenses`, `activity_logs`, policy RLS, dan trigger log otomatis.
-3. Buka **Authentication → Providers → Email** → matikan **"Confirm email"** (biar pendaftaran langsung masuk tanpa verifikasi email).
-4. Periksa **Project Settings → API** → pastikan URL & anon key cocok dengan yang ada di `public/js/config.js`.
+2. **SQL Editor** → **New query** → salin isi `supabase/schema.sql` → **Run**. Ini membuat tabel `profiles`, `expenses`, `activity_logs`, policy RLS, seed 3 profil role (Suami/Istri/Anak,, dan trigger log otomatis.
 
-## Kode Rumah Tangga
 
-Pendaftaran butuh **Kode Rumah Tangga** (default `KELUARGA-2026`). Ganti di `public/js/config.js`:
 
-```js
-window.HOUSEHOLD_CODE = "GANTI-DENGAN-KODE-KAMU";
-```
+Jika project **sudah ada** (dipakai sebelumnya dengan login email):
+- Jalankan isi `supabase/migration_role_login.sql` di **SQL Editor** → **Run**. Data lama tetap aman.
 
-Beri tahu kode ini ke pasangan. Hanya orang yang tahu kode yang bisa mendaftar.
 
-## Coba di lokal
 
+## Login (tanpa email/password)
+- Buka halaman utama → pilih **Suami**, **Istri**, atau **Anak** → **Masuk**.
+/ Coba di lokal
 ```bash
 cd public
 python -m http.server 8000
@@ -37,13 +35,9 @@ python -m http.server 8000
 ```
 
 ## Deploy ke Cloudflare Pages
-
-- **Pakai Wrangler**: `npx wrangler pages deploy public --project-name=catatan-keuangan-keluarga`
+- **Pakai Wrangler**: `npx wrangler pages deploy public --project-name=<nama-project>` (project name diambil dari subdomain `.pages.dev`)
 - **Atau via dashboard**: upload folder `public/` sebagai "Direct Upload".
 - **Atau via Git**: hubungkan repo → build command kosong → output dir `public`.
 
 ## Catatan Keamanan
-
-- Data dilindungi RLS: hanya pengguna yang sudah login (Suami/Istri) yang bisa membaca/menulis.
-- Anon key Supabase memang publik — itu normal untuk client-side, keamanan ada di RLS.
-- Jangan pernah menaruh service_role key di frontend.
+- Tanpa login, semua data terbuka untuk siapa pun yang tahu URL aplikasi Anda. Gunakan hanya untuk keperluan keluarga sendiri. Supabase anon key memang publik — itu normal untuk client-side.

@@ -5,18 +5,22 @@ let profiles = [];
 let logs = [];
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const { data: { session } } = await sb.auth.getSession();
-  if (!session) {
+  const activeId = localStorage.getItem("active_profile");
+  if (!activeId) {
     window.location.href = "index.html";
     return;
   }
 
-  currentUser = session.user;
   const today = new Date();
   currentMonth = today.toISOString().slice(0, 7);
 
   try {
     profiles = await getProfiles();
+    currentUser = profiles.find((p) => p.id === activeId);
+    if (!currentUser) {
+      window.location.href = "index.html";
+      return;
+    }
     await initHeader();
     await loadData();
     bindEvents();
@@ -26,13 +30,12 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 });
 
-async function initHeader() {
-  const me = await getProfile(currentUser.id);
-  document.getElementById("user-name").textContent = me.display_name;
-  document.getElementById("user-role").textContent = roleLabel(me.role);
+function initHeader() {
+  document.getElementById("user-name").textContent = currentUser.display_name;
+  document.getElementById("user-role").textContent = roleLabel(currentUser.role);
   const avatar = document.getElementById("user-avatar");
-  avatar.textContent = initials(me.display_name);
-  avatar.className = "avatar " + me.role;
+  avatar.textContent = initials(currentUser.display_name);
+  avatar.className = "avatar " + currentUser.role;
 
   document.getElementById("month").value = currentMonth;
 }
@@ -43,8 +46,8 @@ function bindEvents() {
     currentMonth = e.target.value;
     loadData();
   });
-  document.getElementById("btn-logout").addEventListener("click", async () => {
-    await sb.auth.signOut();
+  document.getElementById("btn-logout").addEventListener("click", () => {
+    localStorage.removeItem("active_profile");
     window.location.href = "index.html";
   });
 
@@ -104,17 +107,24 @@ function monthRange(ym) {
 
 function renderSummary() {
   const total = expenses.reduce((s, e) => s + Number(e.amount), 0);
-  const suamiTotal = expenses
-    .filter((e) => who(e.created_by)?.role === "suami")
-    .reduce((s, e) => s + Number(e.amount), 0);
-  const istriTotal = total - suamiTotal;
+  const byRole = { suami: 0, istri: 0, anak: 0 };
+  expenses.forEach((e) => {
+    const r = (who(e.created_by)?.role) || "suami";
+    if (byRole[r] === undefined) byRole[r] = 0;
+    byRole[r] += Number(e.amount);
+  });
 
-  document.getElementById("stat-total").textContent = formatRupiah(total);
-  document.getElementById("stat-suami").textContent = formatRupiah(suamiTotal);
-  document.getElementById("stat-istri").textContent = formatRupiah(istriTotal);
+  document.getElementById("stat-total").textContent = formatRupiah(total;
+  document.getElementById("stat-suami").textContent = formatRupiah(byRole.suami;
+  document.getElementById("stat-istri").textContent = formatRupiah(byRole.istri;
+  document.getElementById("stat-anak").textContent = formatRupiah(byRole.anak;
   document.getElementById("stat-count").textContent = expenses.length + " transaksi";
 
-  renderCategories(total);
+  document.getElementById("bp-suami").textContent = formatRupiah(byRole.suami;
+  document.getElementById("bp-istri").textContent = formatRupiah(byRole.istri;
+  document.getElementById("bp-anak").textContent = formatRupiah(byRole.anak;
+
+  renderCategories(total;
 }
 
 function who(id) {

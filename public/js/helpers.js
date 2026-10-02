@@ -47,7 +47,10 @@ function toast(msg, type = "") {
 }
 
 function roleLabel(role) {
-  return role === "suami" ? "Suami" : "Istri";
+  if (role === "suami") return "Suami";
+  if (role === "istri") return "Istri";
+  if (role === "anak") return "Anak";
+  return "Anggota";
 }
 
 function initials(name) {

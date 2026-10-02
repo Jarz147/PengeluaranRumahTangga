@@ -8,6 +8,8 @@
   --suami-soft: #eff6ff;
   --istri: #ec4899;
   --istri-soft: #fdf2f8;
+  --anak: #f59e0b;
+  --anak-soft: #fffbeb;
   --danger: #ef4444;
   --danger-soft: #fef2f2;
   --text: #1e293b;
@@ -104,6 +106,7 @@ header.topbar {
 
 .user-chip .avatar.suami { background: var(--suami); }
 .user-chip .avatar.istri { background: var(--istri); }
+.user-chip .avatar.anak { background: var(--anak); }
 
 .user-chip .uinfo { text-align: right; line-height: 1.2; }
 .user-chip .uinfo .uname { font-weight: 700; font-size: 13px; }
@@ -190,6 +193,7 @@ main { padding: 24px 16px 60px; }
 .stat-card.accent-primary .stat-value { color: var(--primary); }
 .stat-card.accent-suami .stat-value { color: var(--suami); }
 .stat-card.accent-istri .stat-value { color: var(--istri); }
+.stat-card.accent-anak .stat-value { color: var(--anak); }
 .stat-card.accent-green .stat-value { color: var(--green); }
 
 .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
@@ -223,6 +227,7 @@ main { padding: 24px 16px 60px; }
 .breakdown-people .bp-item span { font-size: 12px; color: var(--muted); }
 .breakdown-people .bp-item.suami b { color: var(--suami); }
 .breakdown-people .bp-item.istri b { color: var(--istri); }
+.breakdown-people .bp-item.anak b { color: var(--anak); }
 
 .form-expense { display: grid; grid-template-columns: 2fr 1fr 1.2fr 1fr 1fr auto; gap: 10px; align-items: end; }
 
@@ -255,6 +260,7 @@ tr:hover td { background: #fafbff; }
 
 .badge.suami { background: var(--suami-soft); color: var(--suami); }
 .badge.istri { background: var(--istri-soft); color: var(--istri); }
+.badge.anak { background: var(--anak-soft); color: var(--anak); }
 
 .badge-cat { background: var(--primary-soft); color: var(--primary); }
 
