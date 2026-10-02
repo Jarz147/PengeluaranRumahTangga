@@ -13,6 +13,7 @@ window.CATEGORIES = [
   "Kesehatan",
   "Pendidikan",
   "Hiburan",
+  "Jajan",
   "Tabungan",
   "Lainnya"
 ];
