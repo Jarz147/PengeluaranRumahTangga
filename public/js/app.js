@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", async () => {
   }
 
   const today = new Date();
-  currentMonth = today.toISOString().slice(0, 7);
+  currentMonth = localMonthStr(today;
 
   try {
     profiles = await getProfiles();
@@ -227,7 +227,7 @@ async function addExpense(e) {
     description: form.description.value.trim(),
     amount: parseFloat(form.amount.value),
     category: form.category.value,
-    expense_date: form.date.value || new Date().toISOString().slice(0, 10),
+    expense_date: form.date.value || localDateStr(),
     created_by: currentUser.id
   };
 
@@ -243,7 +243,7 @@ async function addExpense(e) {
   }
 
   form.reset();
-  form.date.value = new Date().toISOString().slice(0, 10);
+  form.date.value = localDateStr();
   toast("Pengeluaran ditambahkan.", "success");
   await loadData();
 }
