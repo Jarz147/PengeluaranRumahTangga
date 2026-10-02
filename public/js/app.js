@@ -124,6 +124,15 @@ function renderSummary() {
   document.getElementById("bp-istri").textContent = formatRupiah(byRole.istri);
   document.getElementById("bp-anak").textContent = formatRupiah(byRole.anak);
 
+  const weekTotals = [0,0,0,0];
+  expenses.forEach((e) => {
+    const day = new Date(e.expense_date + "T00:00:00").getDate() || 1;
+    const w = day <= 7 ? 0 : day <= 14 ? 1 : day <= 21 ? 2 : 3;
+    weekTotals[w] += Number(e.amount);
+  });
+  for (let i = 0; i < 4; i++) {
+    document.getElementById("week-" + (i + 1)).textContent = formatRupiah(weekTotals[i]);
+  }
   renderCategories(total);
 }
 
