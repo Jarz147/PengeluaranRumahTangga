@@ -24,7 +24,7 @@ declare
   v_uid text;
 begin
   v_amount := to_char(coalesce(new.amount, old.amount), 'FM999G999G999G999');
-  v_uid := coalesce(new.created_by, old.created_by;
+  v_uid := coalesce(new.created_by, old.created_by);
 
   if tg_op = 'INSERT' then
     v_action := 'tambah';
