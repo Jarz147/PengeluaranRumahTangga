@@ -15,27 +15,10 @@ const formatDate = (d) => {
   return x.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
 };
 
-const profileCache = {};
-
-async function getProfiles() {
-  const { data, error } = await sb
-    .from("profiles")
-    .select("id, display_name, role");
-  if (error) throw error;
-  data.forEach((p) => (profileCache[p.id] = p));
-  return data;
-}
+const getProfiles = async () => window.ROLE_PROFILES;
 
 async function getProfile(id) {
-  if (profileCache[id]) return profileCache[id];
-  const { data, error } = await sb
-    .from("profiles")
-    .select("id, display_name, role")
-    .eq("id", id)
-    .single();
-  if (error) throw error;
-  profileCache[id] = data;
-  return data;
+  return window.ROLE_PROFILES.find((p) => p.id === id) || null;
 }
 
 function toast(msg, type = "") {

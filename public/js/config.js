@@ -5,11 +5,11 @@ window.SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXB
 // Ganti dengan kode kamu sendiri.
 window.HOUSEHOLD_CODE = "KELUARGA-2026";
 
-// Profil role-only (tanpa akun email). Id harus sama dengan seed di supabase/schema.sql
+// Profil role-only (tanpa akun email). Id = nilai role yang tersimpan di kolom created_by/user_id
 window.ROLE_PROFILES = [
-  { id: "11111111-1111-1111-1111-111111111111", display_name: "Suami", role: "suami" },
-  { id: "22222222-2222-2222-2222-222222222222", display_name: "Istri", role: "istri" },
-  { id: "33333333-3333-3333-3333-333333333333", display_name: "Anak", role: "anak" }
+  { id: "suami", display_name: "Suami", role: "suami" },
+  { id: "istri", display_name: "Istri", role: "istri" },
+  { id: "anak", display_name: "Anak", role: "anak" }
 ];
 
 window.CATEGORIES = [
